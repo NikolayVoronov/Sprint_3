@@ -1,17 +1,20 @@
-from selenium import webdriver
 from locators import Locators
-import time
+from urls import Urls
 
-driver = webdriver.Chrome()
-driver.maximize_window()
+class TestSwitchConstructor:
+    def test_switch_to_bakery(self, driver):
+        """Проверяем, что открыт раздел с булками"""
+        driver.get(Urls.MAIN)
+        assert driver.find_element(*Locators.AREA_BAKERY)
 
-# Открыть главную страницу
-driver.get("https://stellarburgers.nomoreparties.site/")
-# Ждем три секунды
-time.sleep(3)
+    def test_switch_to_souce(self, driver):
+        """Переходим в раздел с соусами и проверяем, что открыт именно он"""
+        driver.get(Urls.MAIN)
+        driver.find_element(*Locators.SOUCE_BUTTON).click()
+        assert driver.find_element(*Locators.AREA_SOUCE)
 
-# Проверить, что на экране открылся раздел с соусами
-assert driver.find_element(*Locators.AREA_BAKERY)
-
-# Закрыть браузер
-driver.quit()
+    def test_switch_to_stuffing(self, driver):
+        """Переходим в раздел с начинками и проверяем, что открыт именно он"""
+        driver.get(Urls.MAIN)
+        driver.find_element(*Locators.STUFFING_BUTTON).click()
+        assert driver.find_element(*Locators.AREA_STUFFING)
